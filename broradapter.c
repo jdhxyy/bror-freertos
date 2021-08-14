@@ -27,11 +27,6 @@ void BrorThreadDeleteMe(void) {
     vTaskDelete(NULL);
 }
 
-// BrorDelay 延时
-void BrorDelay(int second) {
-    vTaskDelay(second * 1000 / portTICK_PERIOD_MS);
-}
-
 // BrorDelayMS 毫秒级延时
 void BrorDelayMS(int ms) {
     if (ms < portTICK_PERIOD_MS) {
@@ -60,4 +55,14 @@ void BrorMutexLock(intptr_t lock) {
 // BrorMutexUnlock 解锁
 void BrorMutexUnlock(intptr_t lock) {
     xSemaphoreGive((SemaphoreHandle_t)lock);
+}
+
+// BrorGetTick 获取系统当前滴答
+uint32_t BrorGetTick(void) {
+    return xTaskGetTickCount();
+}
+
+// BrorGetTickRate 获取每秒滴答数
+int BrorGetTickRate(void) {
+    return configTICK_RATE_HZ;
 }
