@@ -49,7 +49,7 @@ intptr_t BrorMutexInit(void) {
 
 // BrorMutexLock ÉÏËø
 void BrorMutexLock(intptr_t lock) {
-    xSemaphoreTake((SemaphoreHandle_t)lock, 1);
+    xSemaphoreTake((SemaphoreHandle_t)lock, portMAX_DELAY);
 }
 
 // BrorMutexUnlock ½âËø
