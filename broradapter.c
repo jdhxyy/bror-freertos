@@ -16,7 +16,23 @@ bool BrorThreadCreate(BrorFunc func, const char* name, BrorThreadPriority priori
     if (priority > configMAX_PRIORITIES ) {
         priority = configMAX_PRIORITIES;
     }
-    priority = configMAX_PRIORITIES - priority;
+
+    int middle = configMAX_PRIORITIES / 2;
+    switch (priority) {
+    case BROR_THREAD_PRIORITY_HIGHEST: priority = configMAX_PRIORITIES - 1; break;
+    case BROR_THREAD_PRIORITY_LOWEST: priority = 0; break;
+    case BROR_THREAD_PRIORITY_MIDDLE: priority = middle; break;
+    case BROR_THREAD_PRIORITY_LOW: priority = middle - 1; break;
+    case BROR_THREAD_PRIORITY_HIGH: priority = middle + 1; break;
+    default: return false;
+    }
+    if (priority >= configMAX_PRIORITIES) {
+        priority = configMAX_PRIORITIES - 1;
+    }
+    if (priority < 0) {
+        priority = 0;
+    }
+
     xTaskCreate(func, name, stackSize, NULL, priority, NULL);
     return true;
 }
